@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/ie8.css",
+    "inputFile": "wwwroot/sass/ie8.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/main.css",
+    "inputFile": "wwwroot/sass/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/ie9.css",
+    "inputFile": "wwwroot/sass/ie9.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "wwwroot/sass/site.scss"
+  }
+]

@@ -19,7 +19,11 @@ namespace YuanHai.BlogUI
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseIISIntegration()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
+                .UseApplicationInsights()
                 .Build();
     }
 }
