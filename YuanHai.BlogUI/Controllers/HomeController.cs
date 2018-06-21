@@ -8,7 +8,12 @@ namespace YuanHai.BlogUI.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult LogOut()
         {
             return View();
         }

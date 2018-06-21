@@ -18,4 +18,7 @@
     <None Include="wwwroot\css\images\bars.svg" />
     <None Include="wwwroot\css\images\close.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
 </Project>
