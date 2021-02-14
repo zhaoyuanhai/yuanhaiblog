@@ -1,15 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace YuanHai.Blog
+namespace YuanHai.Blog.App
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -21,6 +16,10 @@ namespace YuanHai.Blog
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((builder, config) =>
+                {
+                    config.AddUserSecrets<Startup>();
                 });
     }
 }
