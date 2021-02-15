@@ -5,11 +5,11 @@ namespace Blog.Repositories.Extensions
 {
     public static class RepositoryExtensions
     {
-        public static IServiceCollection AddRepositories(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            serviceCollection.AddService(configuration);
-
-            return serviceCollection;
+            services.AddService(configuration);
+             
+            return services;
         }
     }
 }

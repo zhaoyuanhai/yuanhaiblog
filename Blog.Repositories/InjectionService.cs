@@ -15,6 +15,18 @@ namespace Blog.Repositories
                 build.UseSqlServer(configuration.GetConnectionString(nameof(BlogDbContext)));
             });
 
+            var dbContext = services.BuildServiceProvider().GetRequiredService<BlogDbContext>();
+            if (!dbContext.Database.IsInMemory())
+            {
+                var timeout = dbContext.Database.GetCommandTimeout();
+
+                dbContext.Database.SetCommandTimeout(3000);
+
+                dbContext.Database.Migrate();
+
+                dbContext.Database.SetCommandTimeout(timeout);
+            }
+
             services.AddScoped<IArticleRepository, ArticleRepository>();
 
             return services;

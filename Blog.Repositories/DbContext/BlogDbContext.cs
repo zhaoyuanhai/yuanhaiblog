@@ -1,11 +1,14 @@
-﻿using Blog.Repositories.DbContext.Configures;
+﻿using Blog.Repositories.Abstractions.Entities;
+using Blog.Repositories.DbContext.Configures;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace Blog.Repositories.DbContext
 {
     internal class BlogDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        internal BlogDbContext(DbContextOptions<BlogDbContext> dbContextOptions) : base(dbContextOptions)
+        public BlogDbContext(DbContextOptions<BlogDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
@@ -14,6 +17,8 @@ namespace Blog.Repositories.DbContext
         {
             modelBuilder.ApplyConfiguration(new ArticelEntitiesConfig());
             modelBuilder.ApplyConfiguration(new AuthorEntitiesConfig());
+             
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

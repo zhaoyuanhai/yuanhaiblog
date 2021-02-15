@@ -1,3 +1,4 @@
+using Blog.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace YuanHai.Blog.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddService(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

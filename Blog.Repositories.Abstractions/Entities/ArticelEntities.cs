@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Blog.Repositories.DbContext.Entities
+namespace Blog.Repositories.Abstractions.Entities
 {
     [Table("Articel")]
-    public class ArticelEntities
+    public class ArticleEntities
     {
         public Guid Id { get; set; }
 
@@ -17,7 +17,7 @@ namespace Blog.Repositories.DbContext.Entities
 
         public DateTime CreateTime { get; set; }
 
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
 
         public DateTime PublishTime { get; set; }
 

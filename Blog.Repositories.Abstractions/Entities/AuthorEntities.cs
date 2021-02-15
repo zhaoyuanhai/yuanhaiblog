@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Blog.Repositories.DbContext.Entities
+namespace Blog.Repositories.Abstractions.Entities
 {
     [Table("Author")]
     public class AuthorEntities
@@ -25,5 +25,7 @@ namespace Blog.Repositories.DbContext.Entities
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public Guid ArticelId { get; set; }
     }
 }
