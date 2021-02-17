@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "editor-md@1.5.0",
+      "destination": "wwwroot/lib/editor-md/"
+    },
+    {
+      "library": "marked@2.0.0",
+      "destination": "wwwroot/lib/marked/"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+﻿@page
+@model YuanHai.Blog.App.Pages.WritingModel
+@{
+    ViewBag.Title = "ddd";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/editormd.min.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/editor-md/editormd.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var editor = editormd("test-editor", {
+                width: "100%",
+                height: "100%",
+                path: "lib/"
+            });
+        });
+    </script>
+}
+
+<div style="height:800px">
+
+    <div id="test-editor">
+        <textarea style="display:none;">### 关于 Editor.md
+
+**Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
+    </textarea>
+    </div>
+
+</div>

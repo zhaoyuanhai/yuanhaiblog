@@ -31,7 +31,7 @@ namespace YuanHai.Blog.Pages
                 PageSize = pageSize
             });
 
-            if (this.ArticleModels.Count() == 0)
+            if (!this.ArticleModels.Any())
             {
                 var articleid = Guid.Parse("3A82C623-A6FD-441B-BF89-F0A06B771639");
 

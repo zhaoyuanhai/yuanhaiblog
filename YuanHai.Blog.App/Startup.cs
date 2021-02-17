@@ -20,6 +20,7 @@ namespace YuanHai.Blog.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddService(Configuration);
         }
 
