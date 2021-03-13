@@ -20,5 +20,12 @@ namespace YuanHai.Blog.UnitTest.Blog.Service
 
             Assert.True(true);
         }
+
+        [Fact]
+        public async Task ss()
+        {
+            await Task.CompletedTask;
+            Assert.True(true);
+        }
     }
 }
