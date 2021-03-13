@@ -26,6 +26,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Repositories.Abstracti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuanHai.Blog.App", "YuanHai.Blog.App\YuanHai.Blog.App.csproj", "{5F4F2FF0-D3E6-4865-9D37-038001201235}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6243E72F-86A7-4F0A-83F6-E65980B70C89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuanHai.Blog.UnitTest", "YuanHai.Blog.UnitTest\YuanHai.Blog.UnitTest.csproj", "{B0118F32-A638-46A7-AC60-BB76179AE0A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +64,10 @@ Global
 		{5F4F2FF0-D3E6-4865-9D37-038001201235}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4F2FF0-D3E6-4865-9D37-038001201235}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4F2FF0-D3E6-4865-9D37-038001201235}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0118F32-A638-46A7-AC60-BB76179AE0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0118F32-A638-46A7-AC60-BB76179AE0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0118F32-A638-46A7-AC60-BB76179AE0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0118F32-A638-46A7-AC60-BB76179AE0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +79,7 @@ Global
 		{44B6CB64-D502-424C-A814-563CE31B82F5} = {CBDC60A9-7D53-4CE8-AA71-9CDF42F4655E}
 		{6EBE780D-1E00-4A60-BE1A-1F6B2159A6D3} = {CBDC60A9-7D53-4CE8-AA71-9CDF42F4655E}
 		{8357A475-249D-47E6-820B-46A6F4ECA565} = {86950C3A-7961-47A2-BB19-5C1C259E7839}
+		{B0118F32-A638-46A7-AC60-BB76179AE0A9} = {6243E72F-86A7-4F0A-83F6-E65980B70C89}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7354B254-CBA6-4ABD-8EBB-8505F16F59A6}
