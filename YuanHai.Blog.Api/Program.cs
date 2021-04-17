@@ -21,6 +21,10 @@ namespace YuanHai.Blog.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((builder, config) =>
+                {
+                    config.AddUserSecrets<Startup>();
                 });
     }
 }
