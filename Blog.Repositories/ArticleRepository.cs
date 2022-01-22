@@ -24,16 +24,18 @@ namespace Blog.Repositories
             return _dbContext.SaveChanges() == articles.Length;
         }
 
-        public async Task<IEnumerable<ArticleEntities>> QueryArticle(int pageIndex, int pageSize)
+        public async Task<(IEnumerable<ArticleEntities> entities, int total)> QueryArticle(int pageIndex, int pageSize)
         {
             var articleQuery = _dbContext.Set<ArticleEntities>();
 
             var result = articleQuery
                 .OrderBy(x => x.UpdateTime)
                 .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize).AsNoTracking().ToList();
+                .Take(pageSize);
 
-            return await Task.FromResult(result);
+            var total = result.Count();
+
+            return (await Task.FromResult(result.AsNoTracking().ToList()), total);
         }
     }
 }

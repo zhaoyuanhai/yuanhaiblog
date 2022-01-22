@@ -1,19 +1,22 @@
-﻿using Blog.IRepositories;
+﻿using AutoMapper;
+using BasicModel;
+using Blog.IRepositories;
 using Blog.Services.Abstractions;
 using Blog.Services.Abstractions.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Blog.Services
 {
-    public class ArticleService : IArticleService
+    public class ArticleService : ServiceBase, IArticleService
     {
         readonly IArticleRepository _articleRepository;
+        readonly IMapper _mapper;
 
-        public ArticleService(IArticleRepository articleRepository)
+        public ArticleService(IArticleRepository articleRepository, IMapper mapper)
         {
             _articleRepository = articleRepository;
+            _mapper = mapper;
         }
 
         public async Task<bool> AddArticles(params Repositories.Abstractions.Entities.ArticleEntities[] articles)
@@ -21,24 +24,13 @@ namespace Blog.Services
             return await _articleRepository.AddArticles(articles);
         }
 
-        public async Task<IEnumerable<ArticleModel>> GetArticlePageList(PageingModel pageModel)
+        public async Task<PageModel<ArticleModel>> GetArticlePageList(PageModel pageModel)
         {
-            var entities = await _articleRepository.QueryArticle(pageModel.PageIndex, pageModel.PageSize);
-            var models = new List<ArticleModel>();
-            foreach (var item in entities)
-            {
-                models.Add(new ArticleModel()
-                {
-                    Id = item.Id,
-                    Content = item.Content,
-                    CreatTime = item.CreateTime,
-                    IsPublish = item.IsPublish,
-                    Title = item.Title,
-                    UpdateTime = item.UpdateTime
-                });
-            }
-
-            return models;
+            var (entities, total) = await _articleRepository.QueryArticle(pageModel.Index, pageModel.Size);
+            var models = _mapper.Map<List<ArticleModel>>(entities);
+            pageModel.Total = total;
+            var pageResult = new PageModel<ArticleModel>(pageModel, models);
+            return pageResult;
         }
     }
 }

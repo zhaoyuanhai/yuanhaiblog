@@ -25,11 +25,13 @@ namespace YuanHai.Blog.Pages
 
         public async Task OnGet(int pageIndex = 1, int pageSize = 10)
         {
-            this.ArticleModels = await _articleService.GetArticlePageList(new PageingModel()
+            var result = await _articleService.GetArticlePageList(new BasicModel.PageModel()
             {
-                PageIndex = pageIndex,
-                PageSize = pageSize
+                Index = pageIndex,
+                Size = pageSize
             });
+
+            this.ArticleModels = result.ServiceData.Data;
 
             if (!this.ArticleModels.Any())
             {

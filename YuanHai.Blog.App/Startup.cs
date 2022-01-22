@@ -22,6 +22,7 @@ namespace YuanHai.Blog.App
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddService(Configuration);
+            services.AddAutoMapProfile();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

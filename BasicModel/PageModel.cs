@@ -23,10 +23,18 @@ namespace BasicModel
 
     public class PageModel<T> : PageModel where T : class
     {
-        public List<T> Data { get; set; }
+        public IEnumerable<T> Data { get; set; }
 
         public PageModel(int index, int size, int total, List<T> data) : base(index, size, total)
         {
+            this.Data = data;
+        }
+
+        public PageModel(PageModel pageModel, IEnumerable<T> data)
+        {
+            this.Index = pageModel.Index;
+            this.Size = pageModel.Size;
+            this.Total = pageModel.Total;
             this.Data = data;
         }
     }

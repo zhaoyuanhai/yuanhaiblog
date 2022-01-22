@@ -15,5 +15,15 @@ namespace Blog.Services.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddAutoMapProfile(this IServiceCollection services)
+        {
+            services.AddAutoMapper(configuration =>
+            {
+                configuration.AddProfile<ModelProfile>();
+            });
+
+            return services;
+        }
     }
 }

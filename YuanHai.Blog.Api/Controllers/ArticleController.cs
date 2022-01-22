@@ -1,9 +1,8 @@
 ﻿using BasicModel;
-using Microsoft.AspNetCore.Http;
+using Blog.Services.Abstractions;
+using Blog.Services.Abstractions.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace YuanHai.Blog.Api.Controllers
@@ -12,11 +11,19 @@ namespace YuanHai.Blog.Api.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
+        private readonly IArticleService _articleService;
+
+        public ArticleController(IArticleService articleService)
+        {
+            _articleService = articleService;
+        }
+
         [HttpGet()]
         [ProducesDefaultResponseType(typeof(PageModel<ArticleModel>))]
-        public IActionResult GetArticleList([FromQuery] PageModel pageModel)
+        public async Task<IActionResult> GetArticleList([FromQuery] PageModel pageModel)
         {
-            throw new NotImplementedException();
+            var result = await _articleService.GetArticlePageList(pageModel);
+            return new JsonResult(result);
         }
 
         [HttpGet("{id}")]
