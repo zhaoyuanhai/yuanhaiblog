@@ -15,6 +15,11 @@ namespace Blog.Repositories
                 build.UseSqlServer(configuration.GetConnectionString(nameof(BlogDbContext)));
             });
 
+            services.AddDbContext<BlogDbContext>(build =>
+            {
+                build.UseSqlServer(configuration.GetConnectionString(nameof(BlogDbContext)));
+            });
+
             var dbContext = services.BuildServiceProvider().GetRequiredService<BlogDbContext>();
             if (!dbContext.Database.IsInMemory())
             {

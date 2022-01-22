@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57F2CE4C-BC2B-487C-B4D9-E671ED3662A4}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Repositories", "Blog.Repositories\Blog.Repositories.csproj", "{0C4B0FCB-8762-44D6-85E7-4081CAFAEE47}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Repositories.Extensions", "Blog.Repositories.Extensions\Blog.Repositories.Extensions.csproj", "{E4793CFE-0EA0-49A2-BE7F-5579B040CA51}"
@@ -30,7 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6243E72F-8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuanHai.Blog.UnitTest", "YuanHai.Blog.UnitTest\YuanHai.Blog.UnitTest.csproj", "{B0118F32-A638-46A7-AC60-BB76179AE0A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuanHai.Blog.Api", "YuanHai.Blog.Api\YuanHai.Blog.Api.csproj", "{B10DE693-3D64-4AB8-A2D0-03A065E28E96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YuanHai.Blog.Api", "YuanHai.Blog.Api\YuanHai.Blog.Api.csproj", "{B10DE693-3D64-4AB8-A2D0-03A065E28E96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commonlibrary", "Commonlibrary", "{1A10EC35-5115-4126-8A34-C5D6C5EE1B45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicModel", "BasicModel\BasicModel.csproj", "{8E18B557-BCA3-489C-9DB3-943F4DD72606}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +73,10 @@ Global
 		{B10DE693-3D64-4AB8-A2D0-03A065E28E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B10DE693-3D64-4AB8-A2D0-03A065E28E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B10DE693-3D64-4AB8-A2D0-03A065E28E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E18B557-BCA3-489C-9DB3-943F4DD72606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E18B557-BCA3-489C-9DB3-943F4DD72606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E18B557-BCA3-489C-9DB3-943F4DD72606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E18B557-BCA3-489C-9DB3-943F4DD72606}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +89,7 @@ Global
 		{6EBE780D-1E00-4A60-BE1A-1F6B2159A6D3} = {CBDC60A9-7D53-4CE8-AA71-9CDF42F4655E}
 		{8357A475-249D-47E6-820B-46A6F4ECA565} = {86950C3A-7961-47A2-BB19-5C1C259E7839}
 		{B0118F32-A638-46A7-AC60-BB76179AE0A9} = {6243E72F-86A7-4F0A-83F6-E65980B70C89}
+		{8E18B557-BCA3-489C-9DB3-943F4DD72606} = {1A10EC35-5115-4126-8A34-C5D6C5EE1B45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7354B254-CBA6-4ABD-8EBB-8505F16F59A6}

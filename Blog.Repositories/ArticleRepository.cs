@@ -1,8 +1,8 @@
 ﻿using Blog.IRepositories;
 using Blog.Repositories.Abstractions.Entities;
 using Blog.Repositories.DbContext;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 

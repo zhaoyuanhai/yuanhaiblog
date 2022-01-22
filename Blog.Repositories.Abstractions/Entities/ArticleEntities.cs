@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Blog.Repositories.Abstractions.Entities
 {
-    [Table("Articel")]
+    [Table("Article")]
     public class ArticleEntities
     {
         public Guid Id { get; set; }

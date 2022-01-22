@@ -26,6 +26,6 @@ namespace Blog.Repositories.Abstractions.Entities
 
         public string LastName { get; set; }
 
-        public Guid ArticelId { get; set; }
+        public Guid ArticleId { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace YuanHai.Blog.Pages
                         Id = Guid.Parse("F7197771-D918-43EC-BF68-B039303313BE"),
                         FirstName = "张",
                         LastName = "三",
-                        ArticelId = articleid
+                        ArticleId = articleid
                    }
                 };
 

@@ -21,7 +21,7 @@ namespace Blog.Repositories.DbContext.Configures
 
             builder.HasOne<ArticleEntities>()
                 .WithMany(b => b.AuthorEntities)
-                .HasForeignKey(nameof(AuthorEntities.ArticelId));
+                .HasForeignKey(nameof(AuthorEntities.ArticleId));
         }
     }
 }
