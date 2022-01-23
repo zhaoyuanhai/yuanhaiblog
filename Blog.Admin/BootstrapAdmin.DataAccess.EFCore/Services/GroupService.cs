@@ -1,25 +1,26 @@
-﻿using BootstrapAdmin.DataAccess.Models;
+﻿using AutoMapper;
+using BootstrapAdmin.DataAccess.Models;
 using BootstrapAdmin.Web.Core;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BootstrapAdmin.DataAccess.EFCore.Services;
 
 public class GroupService : IGroup
 {
     private IDbContextFactory<BootstrapAdminContext> DbFactory;
+    private IMapper _mapper;
 
-    public GroupService(IDbContextFactory<BootstrapAdminContext> dbFactory) => DbFactory = dbFactory;
+    public GroupService(IDbContextFactory<BootstrapAdminContext> dbFactory, IMapper mapper)
+    {
+        DbFactory = dbFactory;
+        _mapper = mapper;
+    }
 
     public List<Group> GetAll()
     {
         using var dbcontext = DbFactory.CreateDbContext();
 
-        return dbcontext.Groups.ToList();
+        return _mapper.Map<List<Group>>(dbcontext.Groups.ToList());
     }
 
     public List<string> GetGroupsByRoleId(string? roleId)

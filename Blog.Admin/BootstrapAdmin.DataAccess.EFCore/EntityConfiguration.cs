@@ -1,5 +1,4 @@
 ﻿using BootstrapAdmin.DataAccess.EFCore.Models;
-using BootstrapAdmin.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -20,18 +19,18 @@ public static class EntityConfiguration
             v => v.ToString(),
               new ConverterMappingHints(valueGeneratorFactory: (p, t) => new GuidStringGenerator()));
 
-        builder.Entity<User>().ToTable("Users");
-        builder.Entity<User>().Ignore(u => u.Period);
-        builder.Entity<User>().Ignore(u => u.NewPassword);
-        builder.Entity<User>().Ignore(u => u.ConfirmPassword);
-        builder.Entity<User>().Ignore(u => u.IsReset);
-        builder.Entity<User>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
-        builder.Entity<User>().HasMany(s => s.Roles).WithMany(s => s.Users).UsingEntity<UserRole>(s =>
+        builder.Entity<EFUser>().ToTable("Users");
+        builder.Entity<EFUser>().Ignore(u => u.Period);
+        builder.Entity<EFUser>().Ignore(u => u.NewPassword);
+        builder.Entity<EFUser>().Ignore(u => u.ConfirmPassword);
+        builder.Entity<EFUser>().Ignore(u => u.IsReset);
+        builder.Entity<EFUser>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
+        builder.Entity<EFUser>().HasMany(s => s.Roles).WithMany(s => s.Users).UsingEntity<UserRole>(s =>
         {
             s.HasOne(s => s.User).WithMany(s => s.UserRoles).HasForeignKey(s => s.UserId);
             s.HasOne(s => s.Role).WithMany(s => s.UserRoles).HasForeignKey(s => s.RoleId);
         });
-        builder.Entity<User>().HasMany(s => s.Groups).WithMany(s => s.Users).UsingEntity<UserGroup>(s =>
+        builder.Entity<EFUser>().HasMany(s => s.Groups).WithMany(s => s.Users).UsingEntity<UserGroup>(s =>
         {
             s.HasOne(s => s.User).WithMany(s => s.UserGroup).HasForeignKey(s => s.UserId);
             s.HasOne(s => s.Group).WithMany(s => s.UserGroup).HasForeignKey(s => s.GroupId);
@@ -39,26 +38,26 @@ public static class EntityConfiguration
 
         builder.Entity<UserRole>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
 
-        builder.Entity<Role>().ToTable("Roles");
-        builder.Entity<Role>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
-        builder.Entity<Role>().HasMany(s => s.Navigations).WithMany(s => s.Roles).UsingEntity<NavigationRole>(s =>
+        builder.Entity<EFRole>().ToTable("Roles");
+        builder.Entity<EFRole>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
+        builder.Entity<EFRole>().HasMany(s => s.Navigations).WithMany(s => s.Roles).UsingEntity<NavigationRole>(s =>
         {
             s.HasOne(s => s.Navigation).WithMany(s => s.NavigationRoles).HasForeignKey(s => s.NavigationId);
             s.HasOne(s => s.Role).WithMany(s => s.NavigationRoles).HasForeignKey(s => s.RoleId);
         });
-        builder.Entity<Role>().HasMany(s => s.Groups).WithMany(s => s.Roles).UsingEntity<RoleGroup>(s =>
+        builder.Entity<EFRole>().HasMany(s => s.Groups).WithMany(s => s.Roles).UsingEntity<RoleGroup>(s =>
         {
             s.HasOne(s => s.Group).WithMany(s => s.RoleGroup).HasForeignKey(s => s.GroupId);
             s.HasOne(s => s.Role).WithMany(s => s.RoleGroup).HasForeignKey(s => s.RoleId);
         });
 
-        builder.Entity<Navigation>().ToTable("Navigations");
-        builder.Entity<Navigation>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
-        builder.Entity<Navigation>().Ignore(s => s.HasChildren);
+        builder.Entity<EFNavigation>().ToTable("Navigations");
+        builder.Entity<EFNavigation>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
+        builder.Entity<EFNavigation>().Ignore(s => s.HasChildren);
 
-        builder.Entity<Dict>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
+        //builder.Entity<Dict>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
 
-        builder.Entity<Group>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
+        //builder.Entity<Group>().Property(s => s.Id).HasConversion(converter).ValueGeneratedOnAdd();
     }
 }
 

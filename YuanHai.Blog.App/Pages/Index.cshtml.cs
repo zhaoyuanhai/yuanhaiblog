@@ -31,7 +31,7 @@ namespace YuanHai.Blog.Pages
                 Size = pageSize
             });
 
-            this.ArticleModels = result.ServiceData.Data;
+            this.ArticleModels = result.Data;
 
             if (!this.ArticleModels.Any())
             {

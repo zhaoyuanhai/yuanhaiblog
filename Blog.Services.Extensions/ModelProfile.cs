@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Services.Extensions
 {
-    internal class ModelProfile : Profile
+    public class ModelProfile : Profile
     {
         public ModelProfile()
         {

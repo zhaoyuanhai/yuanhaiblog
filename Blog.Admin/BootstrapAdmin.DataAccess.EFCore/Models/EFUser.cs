@@ -7,7 +7,7 @@ public class EFUser : User
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Role>? Roles { get; set; }
+    public ICollection<EFRole>? Roles { get; set; }
 
     /// <summary>
     /// 
@@ -17,7 +17,7 @@ public class EFUser : User
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Group>? Groups { get; set; }
+    public ICollection<EFGroup>? Groups { get; set; }
 
     /// <summary>
     /// 

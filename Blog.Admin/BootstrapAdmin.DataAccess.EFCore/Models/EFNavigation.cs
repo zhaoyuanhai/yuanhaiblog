@@ -7,7 +7,7 @@ public class EFNavigation : Navigation
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Role>? Roles { get; set; }
+    public ICollection<EFRole>? Roles { get; set; }
 
     /// <summary>
     /// 

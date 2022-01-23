@@ -1,6 +1,8 @@
 ﻿using BootstrapAdmin.Web.Core;
 using BootstrapAdmin.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using BootstrapAdmin.DataAccess.EFCore.Models;
+using AutoMapper;
 
 namespace BootstrapAdmin.DataAccess.EFCore.Services
 {
@@ -10,12 +12,17 @@ namespace BootstrapAdmin.DataAccess.EFCore.Services
     class NavigationsService : INavigation
     {
         private IDbContextFactory<BootstrapAdminContext> DbFactory { get; set; }
+        private IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="factory"></param>
-        public NavigationsService(IDbContextFactory<BootstrapAdminContext> factory) => DbFactory = factory;
+        public NavigationsService(IDbContextFactory<BootstrapAdminContext> factory, IMapper mapper)
+        {
+            DbFactory = factory;
+            _mapper = mapper;
+        }
 
         /// <summary>
         /// 获得指定用户名可访问的所有菜单集合
@@ -26,11 +33,12 @@ namespace BootstrapAdmin.DataAccess.EFCore.Services
         {
             using var context = DbFactory.CreateDbContext();
 
-            var user = context.Set<User>().Include(s => s.Roles!).ThenInclude(s => s.Navigations!.Where(s => s.IsResource == EnumResource.Navigation)).AsSplitQuery().FirstOrDefault(s => s.UserName == userName);
+            var user = context.Set<EFUser>().Include(s => s.Roles!).ThenInclude(s => s.Navigations!.Where(s => s.IsResource == EnumResource.Navigation)).AsSplitQuery().FirstOrDefault(s => s.UserName == userName);
 
             if (user == null)
                 return new List<Navigation>();
-            return user.Roles!.SelectMany(s => s.Navigations!).ToList();
+            var list = user.Roles!.SelectMany(s => s.Navigations!).ToList();
+            return _mapper.Map<List<Navigation>>(list);
         }
 
         public List<string> GetMenusByRoleId(string? roleId)

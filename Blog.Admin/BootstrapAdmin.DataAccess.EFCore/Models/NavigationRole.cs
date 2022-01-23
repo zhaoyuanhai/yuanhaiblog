@@ -17,7 +17,7 @@ public class NavigationRole
     /// <summary>
     /// 
     /// </summary>
-    public Navigation? Navigation { get; set; }
+    public EFNavigation? Navigation { get; set; }
 
     /// <summary>
     /// 
@@ -27,5 +27,5 @@ public class NavigationRole
     /// <summary>
     /// 
     /// </summary>
-    public Role? Role { get; set; }
+    public EFRole? Role { get; set; }
 }

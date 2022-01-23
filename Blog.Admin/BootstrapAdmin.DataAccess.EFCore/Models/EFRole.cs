@@ -7,7 +7,7 @@ public class EFRole : Role
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<User>? Users { get; set; }
+    public ICollection<EFUser>? Users { get; set; }
 
     /// <summary>
     /// 
@@ -18,7 +18,7 @@ public class EFRole : Role
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Navigation>? Navigations { get; set; }
+    public ICollection<EFNavigation>? Navigations { get; set; }
 
     /// <summary>
     /// 
@@ -28,7 +28,7 @@ public class EFRole : Role
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Group>? Groups { get; set; }
+    public ICollection<EFGroup>? Groups { get; set; }
 
     /// <summary>
     /// 

@@ -159,4 +159,24 @@ class DictService : IDict
     {
         throw new NotImplementedException();
     }
+
+    public bool SavDefaultApp(bool enabled)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string RetrieveIconFolderPath()
+    {
+        throw new NotImplementedException();
+    }
+
+    public string? GetHomeUrlByAppId(string? appId = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool GetEnableDefaultApp()
+    {
+        throw new NotImplementedException();
+    }
 }

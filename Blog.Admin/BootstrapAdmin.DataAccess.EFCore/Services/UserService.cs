@@ -76,7 +76,7 @@ public class UserService : IUser
         var group = dbcontext.Groups.Include(s => s.Users).Where(s => s.Id == groupId).FirstOrDefault();
         if (group != null)
         {
-            group.Users = dbcontext.Users.Where(s => userIds.Contains(s.Id));
+            group.Users = dbcontext.Users.Where(s => userIds.Contains(s.Id)).ToList();
             return dbcontext.SaveChanges() > 0;
         }
         else
@@ -143,6 +143,26 @@ public class UserService : IUser
     }
 
     public bool TryCreateUserByPhone(string phone, string code, string appId, ICollection<string> roles)
+    {
+        throw new NotImplementedException();
+    }
+
+    public User? GetUserByUserName(string? userName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string? GetAppIdByUserName(string userName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool SaveApp(string userName, string app)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool SaveUser(string userName, string displayName, string password)
     {
         throw new NotImplementedException();
     }

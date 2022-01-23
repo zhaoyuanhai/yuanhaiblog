@@ -8,9 +8,9 @@ public class RoleGroup
 
     public string? RoleId { get; set; }
 
-    public Role? Role { get; set; }
+    public EFRole? Role { get; set; }
 
     public string? GroupId { get; set; }
 
-    public Group? Group { get; set; }
+    public EFGroup? Group { get; set; }
 }

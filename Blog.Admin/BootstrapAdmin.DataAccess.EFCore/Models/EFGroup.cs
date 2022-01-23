@@ -7,7 +7,7 @@ public class EFGroup : Group
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<User>? Users { get; set; }
+    public ICollection<EFUser>? Users { get; set; }
 
     /// <summary>
     /// 
@@ -17,7 +17,7 @@ public class EFGroup : Group
     /// <summary>
     /// 
     /// </summary>
-    public ICollection<Role>? Roles { get; set; }
+    public ICollection<EFRole>? Roles { get; set; }
 
     /// <summary>
     /// 
