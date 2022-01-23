@@ -40,10 +40,27 @@ public class GroupService : IGroup
     public bool SaveGroupsByRoleId(string? roleId, IEnumerable<string> groupIds)
     {
         using var dbcontext = DbFactory.CreateDbContext();
-        var role = dbcontext.Roles.Include(s => s.Groups).Where(s => s.Id == roleId).FirstOrDefault();
+        var role = dbcontext.Roles.FirstOrDefault(x => x.Id == roleId);
         if (role != null)
         {
-            role.Groups = dbcontext.Groups.Where(s => groupIds.Contains(s.Id)).ToList();
+            var transaction = dbcontext.Database.BeginTransaction();
+            try
+            {
+                var roleGroups = dbcontext.RoleGroup.Where(x => x.RoleId == roleId);
+                dbcontext.RoleGroup.RemoveRange(roleGroups);
+                dbcontext.RoleGroup.AddRange(groupIds.Select(groupId => new Models.RoleGroup
+                {
+                    GroupId = groupId,
+                    RoleId = roleId
+                }));
+                transaction.Commit();
+            }
+            catch
+            {
+                if (transaction != null)
+                    transaction.Rollback();
+                return false;
+            }
             return dbcontext.SaveChanges() > 0;
         }
         else
@@ -55,10 +72,29 @@ public class GroupService : IGroup
     public bool SaveGroupsByUserId(string? userId, IEnumerable<string> groupIds)
     {
         using var dbcontext = DbFactory.CreateDbContext();
-        var user = dbcontext.Users.Include(s => s.Groups).Where(s => s.Id == userId).FirstOrDefault();
+        var user = dbcontext.Users.First(x => x.Id == userId);
         if (user != null)
         {
-            user.Groups = dbcontext.Groups.Where(s => groupIds.Contains(s.Id)).ToList();
+            var userRoles = dbcontext.UserRole.Where(x => x.UserId == userId).ToList();
+            var transaction = dbcontext.Database.BeginTransaction();
+            try
+            {
+                dbcontext.UserRole.RemoveRange(userRoles);
+                groupIds.ToList().ForEach(groupId =>
+                {
+                    dbcontext.UserGroup.Add(new Models.UserGroup
+                    {
+                        GroupId = groupId,
+                        UserId = userId
+                    });
+                });
+            }
+            catch
+            {
+                if (transaction != null)
+                    transaction.Rollback();
+                return false;
+            }
             return dbcontext.SaveChanges() > 0;
         }
         else

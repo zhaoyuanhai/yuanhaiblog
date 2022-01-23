@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using System.Reflection;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -6,6 +8,11 @@ builder.Services.AddServerSideBlazor();
 
 // 注入项目服务
 builder.Services.AddBootstrapBlazorAdmin();
+
+builder.Host.ConfigureAppConfiguration(app =>
+{
+    app.AddUserSecrets(Assembly.GetExecutingAssembly());
+});
 
 var app = builder.Build();
 

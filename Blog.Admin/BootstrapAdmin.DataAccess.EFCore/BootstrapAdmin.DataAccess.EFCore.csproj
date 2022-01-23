@@ -5,13 +5,34 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\css\bootstrap.blazor.bundle.min.css" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\css\motronic.min.css" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\js\bootstrap.blazor.bundle.min.js" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\lib\summernote\font\summernote.eot" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\lib\summernote\font\summernote.ttf" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\lib\summernote\font\summernote.woff" />
+    <Content Remove="C:\Users\yuanzhao\.nuget\packages\bootstrapblazor\6.1.2-beta06\contentFiles\any\net6.0\wwwroot\lib\summernote\font\summernote.woff2" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="BootstrapBlazor" Version="6.1.2-beta06" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BootstrapAdmin.Caching\BootstrapAdmin.Caching.csproj" />
     <ProjectReference Include="..\BootstrapAdmin.Web.Core\BootstrapAdmin.Web.Core.csproj" />
   </ItemGroup>
 

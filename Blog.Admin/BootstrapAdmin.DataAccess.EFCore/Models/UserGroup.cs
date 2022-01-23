@@ -17,7 +17,7 @@ public class UserGroup
     /// <summary>
     /// 
     /// </summary>
-    public EFUser? User { get; set; }
+    public User? User { get; set; }
 
     /// <summary>
     /// 
@@ -27,5 +27,5 @@ public class UserGroup
     /// <summary>
     /// 
     /// </summary>
-    public EFGroup? Group { get; set; }
+    public Group? Group { get; set; }
 }

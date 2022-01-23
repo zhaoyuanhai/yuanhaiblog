@@ -17,7 +17,7 @@ public class UserRole
     /// <summary>
     /// 
     /// </summary>
-    public EFUser? User { get; set; }
+    public User? User { get; set; }
 
     /// <summary>
     /// 
@@ -27,5 +27,5 @@ public class UserRole
     /// <summary>
     /// 
     /// </summary>
-    public EFRole? Role { get; set; }
+    public Role? Role { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using BootstrapAdmin.DataAccess.EFCore;
+using BootstrapAdmin.DataAccess.EFCore.Extensions;
 using BootstrapAdmin.DataAccess.EFCore.Services;
 using BootstrapAdmin.Web.Core;
 using BootstrapBlazor.Components;
@@ -45,12 +46,18 @@ public static class ServicesExtensions
         // 增加数据服务
         services.AddSingleton(typeof(IDataService<>), typeof(DefaultDataService<>));
 
-            services.AddSingleton<INavigation, NavigationsService>();
-            services.AddSingleton<IDict, DictService>();
-            services.AddSingleton<IUser, UserService>();
-            services.AddSingleton<IRole, RoleService>();
-            services.AddSingleton<IGroup, GroupService>();
-            services.AddSingleton<ILogin, LoginService>();
-            return services;
-        }
+        services.AddSingleton<INavigation, NavigationsService>();
+        services.AddSingleton<IDict, DictService>();
+        services.AddSingleton<IUser, UserService>();
+        services.AddSingleton<IRole, RoleService>();
+        services.AddSingleton<IGroup, GroupService>();
+        services.AddSingleton<ILogin, LoginService>();
+
+        services.AddAutoMapper(configuration =>
+        {
+            configuration.AddProfile<EntityProfile>();
+        });
+
+        return services;
     }
+}

@@ -4,6 +4,7 @@ using BootstrapAdmin.Web.Services;
 using BootstrapAdmin.Web.Services.SMS;
 using BootstrapAdmin.Web.Services.SMS.Tencent;
 using BootstrapAdmin.Web.Utils;
+using Microsoft.EntityFrameworkCore;
 using PetaPoco;
 using PetaPoco.Providers;
 
@@ -47,12 +48,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<BootstrapAppContext>();
 
             // 增加 EFCore 数据服务
-            //services.AddEFCoreDataAccessServices((provider, option) =>
-            //{
-            //    var configuration = provider.GetRequiredService<IConfiguration>();
-            //    var connString = configuration.GetConnectionString("bb");
-            //    option.UseSqlite(connString);
-            //});
+            services.AddEFCoreDataAccessServices((provider, option) =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                var connString = configuration.GetConnectionString("ba");
+                option.UseSqlServer(connString);
+            });
 
             // 增加 FreeSql 数据服务
             //            services.AddFreeSql((provider, builder) =>
@@ -67,13 +68,13 @@ namespace Microsoft.Extensions.DependencyInjection
             //            });
 
             // 增加 PetaPoco 数据服务
-            services.AddPetaPocoDataAccessServices((provider, builder) =>
-            {
-                var configuration = provider.GetRequiredService<IConfiguration>();
-                var connString = configuration.GetConnectionString("bb");
-                builder.UsingProvider<SQLiteDatabaseProvider>()
-                       .UsingConnectionString(connString);
-            });
+            //services.AddPetaPocoDataAccessServices((provider, builder) =>
+            //{
+            //    var configuration = provider.GetRequiredService<IConfiguration>();
+            //    var connString = configuration.GetConnectionString("bb");
+            //    builder.UsingProvider<SQLiteDatabaseProvider>()
+            //           .UsingConnectionString(connString);
+            //});
 
             return services;
         }

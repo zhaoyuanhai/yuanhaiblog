@@ -1,7 +1,10 @@
-﻿using BootstrapAdmin.DataAccess.Models;
+﻿using AutoMapper;
+using BootstrapAdmin.DataAccess.EFCore.Models;
+using BootstrapAdmin.DataAccess.Models;
 using BootstrapAdmin.Web.Core;
 using Longbow.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +16,13 @@ namespace BootstrapAdmin.DataAccess.EFCore.Services;
 public class UserService : IUser
 {
     private IDbContextFactory<BootstrapAdminContext> DbFactory { get; set; }
+    private IMapper _mapper;
 
-    public UserService(IDbContextFactory<BootstrapAdminContext> factory) => DbFactory = factory;
+    public UserService(IDbContextFactory<BootstrapAdminContext> factory, IMapper mapper)
+    {
+        DbFactory = factory;
+        _mapper = mapper;
+    }
 
     public IEnumerable<User> GetAll()
     {
@@ -50,10 +58,13 @@ public class UserService : IUser
     public List<string> GetRoles(string userName)
     {
         using var context = DbFactory.CreateDbContext();
-
-        var user = context.Users.Include(s => s.Roles).FirstOrDefault(s => s.UserName == userName);
-
-        return user != null ? user.Roles!.Select(s => s.RoleName).ToList() : new List<string>();
+        var roleNames = from user in context.Users
+                        join userRole in context.UserRole
+                        on user.Id equals userRole.UserId
+                        join role in context.Roles
+                        on userRole.RoleId equals role.Id
+                        select role.RoleName;
+        return roleNames.ToList();
     }
 
     public List<string> GetUsersByGroupId(string? groupId)
@@ -73,30 +84,50 @@ public class UserService : IUser
     public bool SaveUsersByGroupId(string? groupId, IEnumerable<string> userIds)
     {
         using var dbcontext = DbFactory.CreateDbContext();
-        var group = dbcontext.Groups.Include(s => s.Users).Where(s => s.Id == groupId).FirstOrDefault();
-        if (group != null)
+        var transaction = dbcontext.Database.BeginTransaction();
+        try
         {
-            group.Users = dbcontext.Users.Where(s => userIds.Contains(s.Id)).ToList();
-            return dbcontext.SaveChanges() > 0;
+            var userGroups = dbcontext.UserGroup.Where(s => s.GroupId == groupId).ToList();
+            dbcontext.UserGroup.RemoveRange(userGroups);
+            dbcontext.UserGroup.AddRange(userIds.Select(userId => new UserGroup
+            {
+                GroupId = groupId,
+                UserId = userId
+            }));
+            var count = dbcontext.SaveChanges();
+            transaction.Commit();
+            return count > 0;
         }
-        else
+        catch
         {
-            return false;
+            if (transaction != null)
+                transaction.Rollback();
+            throw;
         }
     }
 
     public bool SaveUsersByRoleId(string? roleId, IEnumerable<string> userIds)
     {
         using var dbcontext = DbFactory.CreateDbContext();
-        var currentrole = dbcontext.Roles.Include(s => s.Users).Where(s => s.Id == roleId).FirstOrDefault();
-        if (currentrole != null)
+        var transaction = dbcontext.Database.BeginTransaction();
+        try
         {
-            currentrole.Users = dbcontext.Users.Where(s => userIds.Contains(s.Id)).ToList();
-            return dbcontext.SaveChanges() > 0;
+            var userRoles = dbcontext.UserRole.Where(x => x.RoleId == roleId).ToList();
+            dbcontext.UserRole.RemoveRange(userRoles);
+            dbcontext.UserRole.AddRange(userIds.Select(userId => new UserRole
+            {
+                UserId = userId,
+                RoleId = roleId
+            }));
+            var count = dbcontext.SaveChanges();
+            transaction.Commit();
+            return count > 0;
         }
-        else
+        catch
         {
-            return false;
+            if (transaction != null)
+                transaction.Rollback();
+            throw;
         }
     }
 
@@ -139,31 +170,143 @@ public class UserService : IUser
 
     List<User> IUser.GetAll()
     {
-        throw new NotImplementedException();
+        var dbContext = DbFactory.CreateDbContext();
+        return _mapper.Map<List<User>>(dbContext.Users.ToList());
     }
 
     public bool TryCreateUserByPhone(string phone, string code, string appId, ICollection<string> roles)
     {
-        throw new NotImplementedException();
+        var dbContext = DbFactory.CreateDbContext();
+
+        var ret = false;
+        try
+        {
+            var salt = LgbCryptography.GenerateSalt();
+            var pwd = LgbCryptography.ComputeHash(code, salt);
+            var user = dbContext.Users.FirstOrDefault(x => x.UserName == phone);
+            if (user == null)
+            {
+                dbContext.Database.BeginTransaction();
+                // 插入用户
+                user = new User()
+                {
+                    ApprovedBy = "Mobile",
+                    ApprovedTime = DateTime.Now,
+                    DisplayName = "手机用户",
+                    UserName = phone,
+                    Icon = "default.jpg",
+                    Description = "手机用户",
+                    PassSalt = salt,
+                    Password = LgbCryptography.ComputeHash(code, salt),
+                    App = appId
+                };
+                dbContext.SaveChanges();
+                // Authorization
+                dbContext.Roles.Where(x => roles.Contains(x.RoleName)).ToList().ForEach(x =>
+                {
+                    dbContext.UserRole.Add(new UserRole
+                    {
+                        RoleId = x.Id,
+                        UserId = user.Id
+                    });
+                });
+                dbContext.Database.CommitTransaction();
+            }
+            else
+            {
+                user.PassSalt = salt;
+                user.Password = pwd;
+                dbContext.Update(user);
+            }
+            ret = true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        return ret;
     }
 
     public User? GetUserByUserName(string? userName)
     {
-        throw new NotImplementedException();
+        var dbContext = DbFactory.CreateDbContext();
+        return string.IsNullOrEmpty(userName) ? null : dbContext.Users.FirstOrDefault(x => x.UserName == userName);
     }
 
     public string? GetAppIdByUserName(string userName)
     {
-        throw new NotImplementedException();
+        var dbContext = DbFactory.CreateDbContext();
+        return dbContext.Users.FirstOrDefault(x => x.UserName == userName)?.App;
     }
 
     public bool SaveApp(string userName, string app)
     {
-        throw new NotImplementedException();
+        var dbContext = DbFactory.CreateDbContext();
+        var user = dbContext.Users.FirstOrDefault(u => u.UserName == userName);
+        if (user != null)
+        {
+            user.App = app;
+            return dbContext.SaveChanges() >= 1;
+        }
+        return false;
     }
 
     public bool SaveUser(string userName, string displayName, string password)
     {
-        throw new NotImplementedException();
+        var salt = LgbCryptography.GenerateSalt();
+        var pwd = LgbCryptography.ComputeHash(password, salt);
+        var dbContext = DbFactory.CreateDbContext();
+
+        var user = dbContext.Users.FirstOrDefault(x => x.UserName == userName);
+        bool ret;
+        if (user == null)
+        {
+            IDbContextTransaction? transaction = null;
+            try
+            {
+                // 开始事务
+                transaction = dbContext.Database.BeginTransaction();
+                user = new User()
+                {
+                    ApprovedBy = "System",
+                    ApprovedTime = DateTime.Now,
+                    DisplayName = "手机用户",
+                    UserName = userName,
+                    Icon = "default.jpg",
+                    Description = "系统默认创建",
+                    PassSalt = salt,
+                    Password = pwd
+                };
+                dbContext.SaveChanges();
+                // 授权 Default 角色
+                var roleId = dbContext.Roles.FirstOrDefault(x => x.RoleName == "Default")?.Id;
+                dbContext.Users.Where(x => x.UserName == userName).ToList().ForEach(x =>
+                {
+                    dbContext.UserRole.Add(new UserRole
+                    {
+                        UserId = x.Id,
+                        RoleId = roleId
+                    });
+                });
+                dbContext.SaveChanges();
+                // 结束事务
+                transaction.Rollback();
+                ret = true;
+            }
+            catch (Exception)
+            {
+                transaction?.Rollback();
+                throw;
+            }
+        }
+        else
+        {
+            user.DisplayName = displayName;
+            user.PassSalt = salt;
+            user.Password = pwd;
+            dbContext.SaveChanges();
+            ret = true;
+        }
+        return ret;
     }
 }

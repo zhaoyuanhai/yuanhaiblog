@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Website: https://www.blazor.zone or https://argozhang.github.io/
 
+using BootstrapAdmin.DataAccess.EFCore.Models;
+using BootstrapAdmin.DataAccess.Models;
 using BootstrapBlazor.Components;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +15,25 @@ namespace BootstrapAdmin.DataAccess.EFCore.Services;
 class DefaultDataService<TModel> : DataServiceBase<TModel> where TModel : class, new()
 {
     private IDbContextFactory<BootstrapAdminContext> DbFactory { get; }
+    private Dictionary<Type, Type> _typeMap;
+
+    private IQueryable GetQueryable<TModel>() where TModel : class, new()
+    {
+        var dbContext = DbFactory.CreateDbContext();
+        if (_typeMap.ContainsKey(typeof(TModel)))
+        {
+
+        }
+        return dbContext.Set<TModel>().AsQueryable();
+    }
 
     /// <summary>
     /// 构造函数
     /// </summary>
-    public DefaultDataService(IDbContextFactory<BootstrapAdminContext> factory) => DbFactory = factory;
+    public DefaultDataService(IDbContextFactory<BootstrapAdminContext> factory)
+    {
+        DbFactory = factory;
+    }
 
     /// <summary>
     /// 删除方法
@@ -71,6 +87,7 @@ class DefaultDataService<TModel> : DataServiceBase<TModel> where TModel : class,
         var filters = option.Filters.Concat(option.Searchs).Concat(option.CustomerSearchs);
         if (option.IsPage)
         {
+            var queryable = GetQueryable<TModel>();
             var items = context.Set<TModel>()
                                .Where(filters.GetFilterLambda<TModel>(), filters.Any())
                                .Sort(option.SortName!, option.SortOrder, !string.IsNullOrEmpty(option.SortName))

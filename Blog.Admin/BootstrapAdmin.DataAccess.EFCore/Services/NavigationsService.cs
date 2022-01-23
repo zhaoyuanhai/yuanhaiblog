@@ -31,14 +31,35 @@ namespace BootstrapAdmin.DataAccess.EFCore.Services
         /// <returns>未层次化的菜单集合</returns>
         public List<Navigation> GetAllMenus(string userName)
         {
+            //using var context = DbFactory.CreateDbContext();
+
+            //var user = context.Set<User>().Include(s => s.Roles!).ThenInclude(s => s.Navigations!.Where(s => s.IsResource == EnumResource.Navigation)).AsSplitQuery().FirstOrDefault(s => s.UserName == userName);
+
+            //if (user == null)
+            //    return new List<Navigation>();
+            //var list = user.Roles!.SelectMany(s => s.Navigations!).ToList();
+            //return _mapper.Map<List<Navigation>>(list);
+
             using var context = DbFactory.CreateDbContext();
 
-            var user = context.Set<EFUser>().Include(s => s.Roles!).ThenInclude(s => s.Navigations!.Where(s => s.IsResource == EnumResource.Navigation)).AsSplitQuery().FirstOrDefault(s => s.UserName == userName);
+            var a = from u in context.Users
+                    join ur in context.UserRole on u.Id equals ur.UserId
+                    join nr in context.NavigationRole on ur.RoleId equals nr.RoleId
+                    where u.UserName == userName
+                    select nr.NavigationId;
 
-            if (user == null)
-                return new List<Navigation>();
-            var list = user.Roles!.SelectMany(s => s.Navigations!).ToList();
-            return _mapper.Map<List<Navigation>>(list);
+            var b = from u in context.Users
+                    join ug in context.UserGroup on u.Id equals ug.UserId
+                    join rg in context.RoleGroup on ug.GroupId equals rg.GroupId
+                    join nr in context.NavigationRole on rg.RoleId equals nr.RoleId
+                    where u.UserName == userName
+                    select nr.NavigationId;
+
+            var c = from n in context.Navigations
+
+
+
+
         }
 
         public List<string> GetMenusByRoleId(string? roleId)
